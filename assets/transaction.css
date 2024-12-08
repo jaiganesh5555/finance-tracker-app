@@ -1,0 +1,49 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow&family=PT+Sans&display=swap');
+body {
+    font-family: 'PT Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+   
+    
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.Transactiontable {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.783);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.Transactiontable th,
+.Transactiontable td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.Transactiontable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.Transactiontable td {
+    font-size: 14px;
+}
+
+.Transactiontable tbody tr:hover {
+    background-color: #f5f5f5;
+}
+.total-amount {
+    margin-left: 80%;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}

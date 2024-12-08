@@ -1,0 +1,63 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow&family=PT+Sans&display=swap');
+body{
+    font-family: 'PT Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    height: 100vh;
+    background-image:url('bg-3.jpg');
+    background-size: cover;
+    background-blur: 5px; 
+    backdrop-filter: blur(5px);
+}
+.container {
+    background-color: rgba(255, 255, 255, 0.783);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+label {
+    display: block;
+    margin-top: 10px;
+    color: #555;
+    margin-left: 50px;
+}
+input {
+    width: 350px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 50px;
+}
+button{
+    display: block;
+    width: 150px;
+    background-color: #007bff;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 30px;
+    margin-left: 170px;
+}
+button:hover {
+    background-color: #00b0b3;
+}
+span{
+    margin-left: 100px;
+    margin-top: 10px;
+    font-size: 20px;
+}
+a{
+    text-decoration: none;
+}

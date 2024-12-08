@@ -1,0 +1,74 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow&family=PT+Sans&display=swap');
+body{
+    margin: 0px;
+    background-image:url('bg-1.jpg');
+    background-size: cover;
+    height: 100vh;
+    
+}
+.home-head {
+    margin-top: 80px;
+    text-align: center;
+    color: lightblue;
+}
+
+.home-head h2 {
+    font-size: 48px;
+    font-weight: bold;
+    font-family: 'Barlow', sans-serif;
+    text-shadow: 3px 3px 6px whitesmoke;
+    margin-bottom: 50px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.container button {
+    border: none;
+    border-radius: 30px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-family: 'Barlow', sans-serif;
+    background-color: rgba(255, 255, 255, 0.783);
+    color: black;
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+.container button:hover {
+    background-color: greenyellow;
+    transform: scale(1.05);
+}
+
+.links {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.links li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.links a {
+    text-decoration: none;
+    color: blanchedalmond;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.links a:hover {
+    color: #ff6b6b;
+}
+
