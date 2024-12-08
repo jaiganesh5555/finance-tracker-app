@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form action="/loginsubmit" method="post">
+            <label>Email:</label>
+            <input type="email" name="email">
+            <label>Password:</label>
+            <input type="password" name="password">
+            <button type="submit">Submit</button>
+        </form>
+        <span>Don't have an account? <a href="/signup">Register user</a></span>
+    </div>
+    <!-- <% if(alertMessage) { %>
+        <script>
+            alert('<%- alertMessage %>');
+        </script>
+    <% } %> -->
+</body>
+</html>

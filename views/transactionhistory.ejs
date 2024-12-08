@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="transaction.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            padding-top: 60px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Transaction History</h1>
+    <table class="Transactiontable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Purpose Transaction</th>
+                <th>Amount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% transactions.forEach(doc => { %>
+            <tr>
+                <td><%= doc.Date %></td>
+                <td><%= doc.TypeofTransaction %>, <%= doc.Description %></td>
+                <td><%= doc.Amount %></td>
+                <td>
+                    <i class="fa-solid fa-trash delete-icon" data-transaction-id="<%= doc.id %>" data-user-email="<%= userEmail %>"></i>
+                    <i class="fa-solid fa-user-pen edit-icon" data-transaction-id="<%= doc.id %>" data-user-email="<%= userEmail %>" data-date="<%= doc.Date %>" data-type="<%= doc.TypeofTransaction %>" data-description="<%= doc.Description %>" data-amount="<%= doc.Amount %>"></i>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <h3 class="total-amount">Total Amount: <%= Totalamount %></h3>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Transaction</h2>
+            <form id="editForm">
+                <label for="editDate">Date:</label>
+                <input type="date" id="editDate" name="date" required>
+                <label for="editType">Type of Transaction:</label>
+                <input type="text" id="editType" name="typeoftrans" required>
+                <label for="editDescription">Description:</label>
+                <input type="text" id="editDescription" name="description" required>
+                <label for="editAmount">Amount:</label>
+                <input type="number" id="editAmount" name="amount" required>
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteIcons = document.querySelectorAll(".delete-icon");
+            const editIcons = document.querySelectorAll(".edit-icon");
+
+            // Handle delete icon click
+            deleteIcons.forEach(icon => {
+                icon.addEventListener("click", function () {
+                    const transactionId = icon.getAttribute("data-transaction-id");
+                    const userEmail = icon.getAttribute("data-user-email");
+
+                    const confirmed = confirm("Are you sure you want to delete this transaction?");
+                    if (confirmed) {
+                        fetch(`/deleteTransaction/${transactionId}/${userEmail}`, {
+                            method: 'DELETE'
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.reload(); // Reload the page to refresh data
+                            } else {
+                                alert('Failed to delete transaction.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while deleting the transaction.');
+                        });
+                    }
+                });
+            });
+
+            // Handle edit icon click
+            const modal = document.getElementById("editModal");
+            const span = document.getElementsByClassName("close")[0];
+            const editForm = document.getElementById("editForm");
+            let currentTransactionId = "";
+            let currentUserEmail = "";
+
+            editIcons.forEach(icon => {
+                icon.addEventListener("click", function () {
+                    currentTransactionId = icon.getAttribute("data-transaction-id");
+                    currentUserEmail = icon.getAttribute("data-user-email");
+                    document.getElementById("editDate").value = icon.getAttribute("data-date");
+                    document.getElementById("editType").value = icon.getAttribute("data-type");
+                    document.getElementById("editDescription").value = icon.getAttribute("data-description");
+                    document.getElementById("editAmount").value = icon.getAttribute("data-amount");
+                    modal.style.display = "block";
+                });
+            });
+
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            editForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(editForm);
+                const data = {
+                    date: formData.get("date"),
+                    typeoftrans: formData.get("typeoftrans"),
+                    description: formData.get("description"),
+                    amount: formData.get("amount")
+                };
+
+                // Validate form data before sending
+                if (!data.date || !data.typeoftrans || !data.description || !data.amount) {
+                    alert("All fields are required.");
+                    return;
+                }
+
+                fetch(`/updateTransaction/${currentTransactionId}/${currentUserEmail}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload(); // Reload the page to refresh data
+                    } else {
+                        alert('Failed to update transaction.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the transaction.');
+                });
+            });
+        });
+    </script>
+
+    <% if (alertMessage) { %>
+    <script>
+        alert('<%- alertMessage %>');
+    </script>
+    <% } %>
+</body>
+</html>
+

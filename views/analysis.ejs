@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick analysis</title>
+    <!-- Include Chart.js library -->
+    <script src="node_modules/chart.js/dist/chart.js"></script>
+</head>
+<body>
+    <h1 id="food">Food: <%= foodamount %></h1>
+    <h1 id="bill">Bills: <%= billamount %></h1>
+    <h1 id="fee">College Fees: <%= feeamount %></h1>
+    <h1 id="access">Accessories: <%= accessamount %></h1>
+    <h1 id="others">Others: <%= otheramount %></h1>
+    <canvas id="mychart"></canvas>
+    
+    <!-- Include your JavaScript code here -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const foodAmount = parseFloat(document.getElementById('food').textContent);
+    const billsAmount = parseFloat(document.getElementById('bill').textContent);
+    const accessoriesAmount = parseFloat(document.getElementById('access').textContent);
+    const clgFeesAmount = parseFloat(document.getElementById('fee').textContent);
+    const othersAmount = parseFloat(document.getElementById('others').textContent);
+
+    const totalExpenses = foodAmount + billsAmount + accessoriesAmount + clgFeesAmount + othersAmount;
+
+    const foodShare = (foodAmount / totalExpenses) * 100;
+    const billsShare = (billsAmount / totalExpenses) * 100;
+    const accessoriesShare = (accessoriesAmount / totalExpenses) * 100;
+    const clgFeesShare = (clgFeesAmount / totalExpenses) * 100;
+    const othershare = (othersAmount / totalExpenses) * 100;
+
+    let labels=['Food', 'Bills', 'Accessories', 'College Fees', 'Others']
+    let itemdata=[foodShare, billsShare, accessoriesShare, clgFeesShare, othershare]
+
+    const data={
+        labels: labels,
+        datasets: [{
+            data: itemdata,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#428af5'],
+        }]
+    };
+
+    const config={
+        type:'pie',
+        data:data
+    };
+
+    const chart = new Chart(
+        document.getElementById('mychart'),
+        config
+    );
+});
+
+    </script>
+</body>
+</html>
